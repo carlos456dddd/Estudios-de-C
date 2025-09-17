@@ -46,49 +46,120 @@
 
 // Distancia entre apuntadores
 
+// #include <stdio.h>
+
+// // Funcion para longitud de cadena
+
+// int strlen(char *s)
+// {
+//     // Longitud de cadena que me van a pasar
+
+//     char *p = s;
+
+//     while (*p != '\0')
+//     { // Se sabe que en el caso de las cadenas la terminación es '\0' entonces aprovechando eso
+//       // printf("Resultado de P:%p\n", p);
+//       // printf("Resultado de P:%c\n", *p);
+//         printf("Resultado de P:%p\n", p);
+//         printf("Resultado de P:%c\n", *p);
+
+//         p++; // Junto a la aritmetica de punteros determinaremos la cantidad de elementos antes de toparnos con '\0'
+//     }
+
+//     // printf("resta de ambos: %p\n", p - s);
+//     // Se esta pasando el valor de final de la cdena referente a la direccion de memoria con el valor s que es &l['c']
+
+//     return p - s;
+// }
+
+// int intlen(int *h)
+// {
+
+//     int *g = h;
+//     while (*g != '\0')
+//     {
+//         printf("Recorridos de la direccion de memoria: %p\n", g);
+//         printf("Recorridos de la direccion de memoria: %d\n", *g);
+
+//         g++;
+//     }
+
+//     return g - h;
+// }
+
+// int main(void)
+// {
+
+//     // int *p = &g[1];
+//     // int *q = &g[3];
+//     // printf("Seccion desde --> g:%p\n",g);
+//     // printf("Quiero saber ubicaciones de memoria: p:%p, q:%p ",p, q);
+//     // printf("Para saber la distancia de memoria se tiene: %p", p+2);
+
+//     // char l[4] = {'a', 'b', 'c', 'd'}; // En este caso estoy diciendo que es {a,b,c,d}
+//     // char *j;
+//     // j = "carlos";
+//     // int d = strlen(j);
+
+//     int g[5] = {5, 6, 7, 8, 9};
+//     int f = intlen(g);
+//     printf("Determinar el tamaño de la cadena: %d\n", f);
+//     // printf("valor final del array: %p\n", &l[0]);
+//     // printf("valor de longitud de cadena de caracteres: %d", d);
+//     // Se puede hacer una variacion del len para saber longitud de cadena
+// }
+
+//
+
 #include <stdio.h>
 
-// Funcion para longitud de cadena
+#define ALLOCSIZE 20             // tamaño del buffer total
+static char allocbuf[ALLOCSIZE]; // memoria reservada
+static char *allocp = allocbuf;  // apunta al inicio del buffer
 
-int strlen(char *s)
+char *alloc(int n)
 {
-    // Longitud de cadena que me van a pasar
-
-    char *p = s;
-
-    while (*p != '\0')
-    { // Se sabe que en el caso de las cadenas la terminación es '\0' entonces aprovechando eso
-      // printf("Resultado de P:%p\n", p);
-      // printf("Resultado de P:%c\n", *p);
-        printf("Resultado de P:%p\n", p);
-        printf("Resultado de P:%c\n", *p);
-
-        p++; // Junto a la aritmetica de punteros determinaremos la cantidad de elementos antes de toparnos con '\0'
+    if (allocbuf + ALLOCSIZE - allocp >= n)
+    {                      // ¿hay espacio suficiente?
+        allocp += n;       // muevo el puntero
+        printf("tenemos que : %p\n", allocp);
+        return allocp - n; // devuelvo el inicio del bloque
     }
-    printf("valor final: l: %p\n", p);
-    printf("valor iniciar: l: %p\n", s);
-
-    // printf("resta de ambos: %p\n", p - s);
-    // Se esta pasando el valor de final de la cdena referente a la direccion de memoria con el valor s que es &l['c']
-
-    return p - s;
+    else
+    {
+        return NULL; // no hay espacio
+    }
 }
 
-int main(void)
+void afree(char *p)
+{
+    if (p >= allocbuf && p < allocbuf + ALLOCSIZE)
+
+
+    {   
+        printf("TENEMOS QUE:%p, p:%p, el allocp:%p\n", allocbuf, p, allocp);
+
+        allocp = p; // libero desde ahí
+    }
+}
+
+int main()
 {
 
-    int g[5] = {5, 6, 7, 8, 9};
-    // int *p = &g[1];
-    // int *q = &g[3];
-    // printf("Seccion desde --> g:%p\n",g);
-    // printf("Quiero saber ubicaciones de memoria: p:%p, q:%p ",p, q);
-    // printf("Para saber la distancia de memoria se tiene: %p", p+2);
+    printf("inicio de &buff[0] :%p\n", allocp);
+    char *p1 = alloc(5);  // pido 5 bytes
+    char *p2 = alloc(7);  // pido 7 bytes
+    char *p3 = alloc(10); // pido 10 bytes (fallará)
 
-    char l[4] = {'a', 'b', 'c', 'd'}; //En este caso estoy diciendo que es {a,b,c,d}
+    printf("Dirección de p1: %p\n", p1);
+    printf("Dirección de p2: %p\n", p2);
+    printf("Dirección de p3: %p\n", p3);
 
-    // printf("valor iniciar: l: %p\n", l);
-    int d = strlen(l);
-    printf("valor final del array: %p\n", &l[0]);
-    printf("valor de longitud de cadena de caracteres: %d", d);
-    // Se puede hacer una variacion del len para saber longitud de cadena
+    afree(p2);           // libero lo asignado a p2
+    afree(p1);
+    // char *p4 = alloc(6); // vuelvo a pedir 6 bytes
+
+    // printf("Dirección de p4: %p\n", p4);
+
+    return 0;
 }
