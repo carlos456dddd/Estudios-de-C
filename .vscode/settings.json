@@ -2,5 +2,6 @@
     "files.associations": {
         "*.embeddedhtml": "html",
         "je.C": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }
