@@ -18,7 +18,7 @@ int strcmp(char *n, char *m) {
 
 int main(void) {
 
-    char a[] = "achinquipa";
+    char a[] = "achinqu";
     char b[] = "achinquipa";
 
     int g = strcmp(a,b);

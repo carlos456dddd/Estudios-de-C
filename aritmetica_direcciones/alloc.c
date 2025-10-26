@@ -114,7 +114,7 @@
 #include <stdio.h>
 
 #define ALLOCSIZE 20             // tamaño del buffer total
-static char allocbuf[ALLOCSIZE]; // memoria reservada
+static char allocbuf[ALLOCSIZE]; // memoria reservada &[0] <- dirección de memoria
 static char *allocp = allocbuf;  // apunta al inicio del buffer
 
 char *alloc(int n)
@@ -122,7 +122,6 @@ char *alloc(int n)
     if (allocbuf + ALLOCSIZE - allocp >= n)
     {                      // ¿hay espacio suficiente?
         allocp += n;       // muevo el puntero
-        printf("tenemos que : %p\n", allocp);
         return allocp - n; // devuelvo el inicio del bloque
     }
     else
@@ -134,8 +133,6 @@ char *alloc(int n)
 void afree(char *p)
 {
     if (p >= allocbuf && p < allocbuf + ALLOCSIZE)
-
-
     {   
         printf("TENEMOS QUE:%p, p:%p, el allocp:%p\n", allocbuf, p, allocp);
 

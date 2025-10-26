@@ -59,12 +59,16 @@ void quicksort_lomuto(int k[], int izquierda, int derecha)
 
     if (izquierda >= derecha)
         return;
+
+
     void swap(int j[], int a, int b);
+
     swap(k, izquierda, (izquierda + derecha)/2);
 
     last = izquierda;
 
     for (i = izquierda + 1; i <= derecha; i++) {
+        
         if ( k[izquierda] > k[i]) {
             swap(k, ++last, i);
         }
